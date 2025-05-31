@@ -1,0 +1,102 @@
+library(terra)
+library(dplyr)
+
+setwd("/exports/geos.ed.ac.uk/landteam/N/chris_fire")
+
+# Import rasters
+L <- list() #load data here
+L$deg_all <- rast("1_processed/deg_combined_resampled.tif")
+L$lc_2000 <- rast("1_processed/LC2000_resampled.tif")
+L$flc_2000 <- rast("1_processed/FLC_2000_resampled.tif") # Proportion of flammable landcovers within 33 x 33 pixels
+L$flc_2001 <- rast("1_processed/FLC_2001_resampled.tif")
+L$flc_2002 <- rast("1_processed/FLC_2002_resampled.tif")
+L$flc_2003 <- rast("1_processed/FLC_2003_resampled.tif")
+L$flc_2004 <- rast("1_processed/FLC_2004_resampled.tif")
+L$flc_2005 <- rast("1_processed/FLC_2005_resampled.tif")
+L$flc_2006 <- rast("1_processed/FLC_2006_resampled.tif")
+L$flc_2007 <- rast("1_processed/FLC_2007_resampled.tif")
+L$flc_2008 <- rast("1_processed/FLC_2008_resampled.tif")
+L$flc_2009 <- rast("1_processed/FLC_2009_resampled.tif")
+L$flc_2010 <- rast("1_processed/FLC_2010_resampled.tif")
+L$flc_2011 <- rast("1_processed/FLC_2011_resampled.tif")
+L$flc_2012 <- rast("1_processed/FLC_2012_resampled.tif")
+L$flc_2013 <- rast("1_processed/FLC_2013_resampled.tif")
+L$flc_2014 <- rast("1_processed/FLC_2014_resampled.tif")
+L$flc_2015 <- rast("1_processed/FLC_2015_resampled.tif")
+L$flc_2016 <- rast("1_processed/FLC_2016_resampled.tif")
+L$flc_2017 <- rast("1_processed/FLC_2017_resampled.tif")
+L$flc_2018 <- rast("1_processed/FLC_2018_resampled.tif")
+L$flc_2019 <- rast("1_processed/FLC_2019_resampled.tif")
+L$flc_2020 <- rast("1_processed/FLC_2020_resampled.tif")
+L$m_2000 <- rast("1_processed/2000_resampled.tif")
+L$m_2001 <- rast("1_processed/2001_resampled.tif")
+L$m_2002 <- rast("1_processed/2002_resampled.tif")
+L$m_2003 <- rast("1_processed/2003_resampled.tif")
+L$m_2004 <- rast("1_processed/2004_resampled.tif")
+L$m_2005 <- rast("1_processed/2005_resampled.tif")
+L$m_2006 <- rast("1_processed/2006_resampled.tif")
+L$m_2007 <- rast("1_processed/2007_resampled.tif")
+L$m_2008 <- rast("1_processed/2008_resampled.tif")
+L$m_2009 <- rast("1_processed/2009_resampled.tif")
+L$m_2010 <- rast("1_processed/2010_resampled.tif")
+L$m_2011 <- rast("1_processed/2011_resampled.tif")
+L$m_2012 <- rast("1_processed/2012_resampled.tif")
+L$m_2013 <- rast("1_processed/2013_resampled.tif")
+L$m_2014 <- rast("1_processed/2014_resampled.tif")
+L$m_2015 <- rast("1_processed/2015_resampled.tif")
+L$m_2016 <- rast("1_processed/2016_resampled.tif")
+L$m_2017 <- rast("1_processed/2017_resampled.tif")
+L$m_2018 <- rast("1_processed/2018_resampled.tif")
+L$m_2019 <- rast("1_processed/2019_resampled.tif")
+L$m_2020 <- rast("1_processed/2020_resampled.tif")
+L$m_2021 <- rast("1_processed/2021_resampled.tif")
+L$m_2022 <- rast("1_processed/2022_resampled.tif")
+L$m_2023 <- rast("1_processed/2023_resampled.tif")
+L$roads <- rast("1_processed/roads_resampled.tif")
+L$markets <- rast("1_processed/markets_resampled.tif")
+L$urban <- rast("1_processed/urban_resampled.tif")
+L$buildings <- rast("1_processed/pop_resampled.tif")
+L$catchment <- rast("1_processed/catchments_resampled.tif")
+L$agc <- rast("1_processed/mcnicol_angola_agc_alos1_resampled.tif")
+RSt <- rast(L)
+print("Rasters in")
+
+
+# a <- Sys.time()
+# df <- spatSample(RSt, size = 1e3, method = "regular", as.df = TRUE, replace = FALSE)
+# df <- df %>% filter(agc >0 & !is.na(agc)& lc_2000 %in% c(1,2,3,4) & buildings < 7200)
+# saveRDS(df, "2_dataframes/df_1e3.Rds")
+# print("1e3 done")
+# Sys.time()-a
+# 
+# a <- Sys.time()
+# df1 <- spatSample(RSt, size = 1e6, method = "regular", as.df = TRUE, replace = FALSE)
+# df1 <- df1 %>% filter(agc >0 & !is.na(agc)& lc_2000 %in% c(1,2,3,4) & buildings < 7200)
+# saveRDS(df1, "2_dataframes/df_1e6.Rds")
+# print("1e6 done")
+# Sys.time()-a
+
+a <- Sys.time()
+df2 <- spatSample(RSt, size = 1e7, method = "regular", as.df = TRUE, replace = FALSE, xy = TRUE)
+df2 <- df2 %>% filter(agc >0 & !is.na(agc)& lc_2000 %in% c(1,2,3,4,5) & buildings < 7200) ###### Include grassland??
+saveRDS(df2, "2_dataframes/1e7_reg.Rds")
+print("1e7 done")
+Sys.time()-a
+
+a <- Sys.time()
+df2 <- spatSample(RSt, size = 1.01e7, method = "regular", as.df = TRUE, replace = FALSE, xy = TRUE)
+df2 <- df2 %>% filter(agc >0 & !is.na(agc)& lc_2000 %in% c(1,2,3,4,5) & buildings < 7200) ###### Include grassland??
+saveRDS(df2, "2_dataframes/101e7_reg.Rds")
+print("1.01e7 done")
+Sys.time()-a
+
+# a <- Sys.time()
+# df3 <- spatSample(RSt, size = 1e8, method = "regular", as.df = TRUE, replace = FALSE)
+# df3 <- df3 %>% filter(agc >0 & !is.na(agc)& lc_2000 %in% c(1,2,3,4) & buildings < 7200)
+# saveRDS(df3, "2_dataframes/df_1e8.Rds")
+# print("1e8 done")
+# Sys.time()-a
+
+# df3 <- terra::as.data.frame(RSt)
+# saveRDS(df2, "2_dataframes/df_all.Rds")
+# print("done")
